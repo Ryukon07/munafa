@@ -26,7 +26,7 @@ export const useTrades = () => {
   const addTrade = async (symbol, tradeType, buyPrice, sellPrice, quantity, date) => {
     try {
       const response = await tradeAPI.addTrade(symbol, tradeType, buyPrice, sellPrice, quantity, date);
-      setTrades([response.data, ...trades]);
+      setTrades((prev) => [response.data, ...prev]);
       return response.data;
     } catch (err) {
       setError(err.response?.data?.error || "Failed to add trade");
@@ -37,7 +37,7 @@ export const useTrades = () => {
   const deleteTrade = async (id) => {
     try {
       await tradeAPI.deleteTrade(id);
-      setTrades(trades.filter((trade) => trade.id !== id));
+      setTrades((prev) => prev.filter((trade) => trade.id !== id));
     } catch (err) {
       setError(err.response?.data?.error || "Failed to delete trade");
       throw err;

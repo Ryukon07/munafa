@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #FAF8F3;
+  font-family: 'Comic Neue', cursive;
+  color: #3A3A3A;
+}
+
+h1, h2, h3 {
+  font-family: 'Bangers', cursive;
+  letter-spacing: 2px;
+}
+
+/* Doodle border animation */
+@keyframes doodleBorder {
+  0%, 100% {
+    border-radius: 8px 12px 10px 14px;
+  }
+  25% {
+    border-radius: 12px 8px 14px 10px;
+  }
+  50% {
+    border-radius: 10px 14px 8px 12px;
+  }
+  75% {
+    border-radius: 14px 10px 12px 8px;
+  }
+}
+
+/* Subtle slide-in animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: slideIn 0.6s ease-out;
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(0.5deg); }
+  75% { transform: rotate(-0.5deg); }
+}
+
+.wobble {
+  animation: wobble 4s ease-in-out infinite;
+}

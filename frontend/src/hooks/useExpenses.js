@@ -26,7 +26,7 @@ export const useExpenses = () => {
   const addExpense = async (label, amount, type, date) => {
     try {
       const response = await expenseAPI.addExpense(label, amount, type, date);
-      setExpenses([response.data, ...expenses]);
+      setExpenses((prev) => [response.data, ...prev]);
       return response.data;
     } catch (err) {
       setError(err.response?.data?.error || "Failed to add expense");
@@ -37,7 +37,7 @@ export const useExpenses = () => {
   const deleteExpense = async (id) => {
     try {
       await expenseAPI.deleteExpense(id);
-      setExpenses(expenses.filter((expense) => expense.id !== id));
+      setExpenses((prev) => prev.filter((expense) => expense.id !== id));
     } catch (err) {
       setError(err.response?.data?.error || "Failed to delete expense");
       throw err;

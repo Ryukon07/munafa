@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authAPI } from "../utils/api";
+import ThemeToggle from "../components/ThemeToggle";
 
 const getTodayValue = () => new Date().toISOString().split("T")[0];
 
-export default function LoginPage({ setUser, user }) {
+export default function LoginPage({ setUser, user, theme, onToggleTheme }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isRegister, setIsRegister] = useState(false);
@@ -89,6 +90,7 @@ export default function LoginPage({ setUser, user }) {
 
   return (
     <div
+      className="auth-page"
       style={{
         minHeight: "100vh",
         background:
@@ -98,6 +100,10 @@ export default function LoginPage({ setUser, user }) {
         padding: "32px 20px",
       }}
     >
+      <div style={{ position: "absolute", top: "18px", right: "18px", zIndex: 3 }}>
+        <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+      </div>
+
       <style>{`
         @keyframes floatIn {
           0% { opacity: 0; transform: translateY(24px) scale(0.96); }
@@ -115,6 +121,122 @@ export default function LoginPage({ setUser, user }) {
           0% { transform: translateX(-140%) skewX(-18deg); }
           100% { transform: translateX(240%) skewX(-18deg); }
         }
+        @keyframes bob {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-6px); }
+        }
+        @keyframes softPulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.04); }
+        }
+
+        @media (max-width: 768px) {
+          .auth-page {
+            padding: 16px 12px 18px !important;
+            overflow-x: hidden !important;
+          }
+
+          .auth-shell {
+            grid-template-columns: 1fr !important;
+            gap: 18px !important;
+            min-height: calc(100vh - 36px) !important;
+            align-items: start !important;
+          }
+
+          .auth-hero {
+            display: none !important;
+          }
+
+          .auth-panel-wrap {
+            justify-content: stretch !important;
+            min-height: calc(100vh - 80px) !important;
+            align-items: center !important;
+          }
+
+          .auth-panel {
+            max-width: none !important;
+            width: 100% !important;
+            animation-duration: 0.6s !important;
+          }
+
+          .auth-card {
+            padding: 18px 14px !important;
+            border-radius: 22px 16px 22px 16px !important;
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.14) !important;
+          }
+
+          .auth-card-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            margin-bottom: 16px !important;
+          }
+
+          .auth-card-header h2 {
+            font-size: 26px !important;
+          }
+
+          .auth-card-header p {
+            font-size: 13px !important;
+          }
+
+          .auth-mode-toggle {
+            width: 100% !important;
+            justify-content: center !important;
+          }
+
+          .auth-field {
+            margin-bottom: 14px !important;
+          }
+
+          .auth-field label {
+            font-size: 13px !important;
+          }
+
+          .auth-field input {
+            font-size: 15px !important;
+            padding: 12px 14px !important;
+          }
+
+          .auth-helper-text {
+            font-size: 12px !important;
+            margin-bottom: 14px !important;
+          }
+
+          .auth-error {
+            font-size: 13px !important;
+            padding: 11px 12px !important;
+          }
+
+          .auth-submit {
+            padding: 13px 14px !important;
+            font-size: 15px !important;
+          }
+
+          .auth-secondary-toggle {
+            font-size: 14px !important;
+            padding: 12px 14px !important;
+          }
+
+          .auth-floating-one,
+          .auth-floating-two {
+            opacity: 0.7;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .auth-page {
+            padding: 12px 10px 14px !important;
+          }
+
+          .auth-card {
+            padding: 16px 12px !important;
+          }
+
+          .auth-card-header h2 {
+            font-size: 24px !important;
+          }
+        }
       `}</style>
 
       <div
@@ -126,8 +248,9 @@ export default function LoginPage({ setUser, user }) {
           borderRadius: "50%",
           background: "rgba(232, 114, 111, 0.14)",
           filter: "blur(2px)",
-          animation: "drift 8s ease-in-out infinite",
+          animation: "drift 8s ease-in-out infinite, bob 7s ease-in-out infinite",
         }}
+        className="auth-floating-one"
       />
       <div
         style={{
@@ -138,11 +261,13 @@ export default function LoginPage({ setUser, user }) {
           borderRadius: "38% 62% 60% 40% / 46% 38% 62% 54%",
           background: "rgba(107, 165, 131, 0.14)",
           filter: "blur(3px)",
-          animation: "drift 10s ease-in-out infinite reverse",
+          animation: "drift 10s ease-in-out infinite reverse, softPulse 6s ease-in-out infinite",
         }}
+        className="auth-floating-two"
       />
 
       <div
+        className="auth-shell"
         style={{
           maxWidth: "1180px",
           margin: "0 auto",
@@ -156,13 +281,15 @@ export default function LoginPage({ setUser, user }) {
         }}
       >
         <section
+          className="auth-hero"
           style={{
             padding: "24px 12px",
             animation: "floatIn 0.7s ease-out",
           }}
         >
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "10px", marginBottom: "18px" }}>
+          <div className="auth-brand-row" style={{ display: "inline-flex", alignItems: "center", gap: "10px", marginBottom: "18px" }}>
             <div
+              className="auth-brand-icon"
               style={{
                 width: "56px",
                 height: "56px",
@@ -174,9 +301,11 @@ export default function LoginPage({ setUser, user }) {
                 justifyContent: "center",
                 boxShadow: "4px 4px 0px rgba(0,0,0,0.12)",
                 fontSize: "28px",
+                fontWeight: "bold",
+                color: "#FAF8F3",
               }}
             >
-              🎯
+              MF
             </div>
             <div>
               <p style={{ color: "#6B6354", fontSize: "13px", fontWeight: "bold", letterSpacing: "1.5px" }}>MUNAFA</p>
@@ -189,6 +318,7 @@ export default function LoginPage({ setUser, user }) {
           </p>
 
           <div
+            className="auth-badges"
             style={{
               display: "inline-flex",
               gap: "12px",
@@ -219,8 +349,9 @@ export default function LoginPage({ setUser, user }) {
           </div>
         </section>
 
-        <section style={{ display: "flex", justifyContent: "center" }}>
+        <section className="auth-panel-wrap" style={{ display: "flex", justifyContent: "center" }}>
           <div
+            className="auth-panel"
             style={{
               width: "100%",
               maxWidth: "460px",
@@ -242,6 +373,7 @@ export default function LoginPage({ setUser, user }) {
             />
 
             <div
+              className="auth-card"
               style={{
                 position: "relative",
                 overflow: "hidden",
@@ -276,7 +408,7 @@ export default function LoginPage({ setUser, user }) {
               </div>
 
               <div style={{ position: "relative", zIndex: 1 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", marginBottom: "20px" }}>
+                <div className="auth-card-header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", marginBottom: "20px" }}>
                   <div>
                     <h2 style={{ fontSize: "32px", marginBottom: "6px" }}>{isRegister ? "Sign up" : "Sign in"}</h2>
                     <p style={{ color: "#666", fontSize: "14px" }}>
@@ -287,6 +419,7 @@ export default function LoginPage({ setUser, user }) {
                   <button
                     type="button"
                     onClick={handleModeToggle}
+                    className="auth-mode-toggle"
                     style={{
                       border: "2px solid #3A3A3A",
                       background: isRegister ? "#6BA583" : "#E8726F",
@@ -305,7 +438,7 @@ export default function LoginPage({ setUser, user }) {
 
                 <form onSubmit={handleSubmit}>
                   {isRegister && (
-                    <div style={{ marginBottom: "18px" }}>
+                    <div className="auth-field" style={{ marginBottom: "18px" }}>
                       <label style={{ display: "block", fontSize: "14px", fontWeight: "bold", marginBottom: "8px" }}>Name</label>
                       <input
                         autoComplete="name"
@@ -337,7 +470,7 @@ export default function LoginPage({ setUser, user }) {
                     </div>
                   )}
 
-                  <div style={{ marginBottom: "18px" }}>
+                  <div className="auth-field" style={{ marginBottom: "18px" }}>
                     <label style={{ display: "block", fontSize: "14px", fontWeight: "bold", marginBottom: "8px" }}>Email</label>
                     <input
                       autoComplete="email"
@@ -368,7 +501,7 @@ export default function LoginPage({ setUser, user }) {
                     />
                   </div>
 
-                  <div style={{ marginBottom: "14px" }}>
+                  <div className="auth-field" style={{ marginBottom: "14px" }}>
                     <label style={{ display: "block", fontSize: "14px", fontWeight: "bold", marginBottom: "8px" }}>Password</label>
                     <div style={{ position: "relative" }}>
                       <input
@@ -420,12 +553,13 @@ export default function LoginPage({ setUser, user }) {
                     </div>
                   </div>
 
-                  <div style={{ marginBottom: "18px", color: "#666", fontSize: "13px", lineHeight: 1.5 }}>
+                  <div className="auth-helper-text" style={{ marginBottom: "18px", color: "#666", fontSize: "13px", lineHeight: 1.5 }}>
                     {isRegister ? "Use at least 6 characters. Keep it simple, but not too simple." : "Use the email and password from your account."}
                   </div>
 
                   {error && (
                     <div
+                      className="auth-error"
                       style={{
                         marginBottom: "18px",
                         padding: "12px 14px",
@@ -443,6 +577,7 @@ export default function LoginPage({ setUser, user }) {
                   <button
                     type="submit"
                     disabled={loading}
+                    className="auth-submit"
                     style={{
                       width: "100%",
                       padding: "14px 16px",
@@ -475,6 +610,7 @@ export default function LoginPage({ setUser, user }) {
                   <button
                     type="button"
                     onClick={handleModeToggle}
+                    className="auth-secondary-toggle"
                     style={{
                       width: "100%",
                       padding: "12px 16px",

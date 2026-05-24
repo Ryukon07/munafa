@@ -317,36 +317,6 @@ export default function LoginPage({ setUser, user, theme, onToggleTheme }) {
             Track trades, expenses, and profit cleanly in one place. Sign in to continue or create a new account in a style that matches the rest of the app.
           </p>
 
-          <div
-            className="auth-badges"
-            style={{
-              display: "inline-flex",
-              gap: "12px",
-              flexWrap: "wrap",
-            }}
-          >
-            {[
-              "Protected routes",
-              "Safe token storage",
-              "Password hashing",
-              "Dashboard access",
-            ].map((badge) => (
-              <span
-                key={badge}
-                style={{
-                  padding: "10px 14px",
-                  background: "#F5F3ED",
-                  border: "2px solid #3A3A3A",
-                  borderRadius: "999px",
-                  fontSize: "13px",
-                  fontWeight: "bold",
-                  boxShadow: "2px 2px 0px rgba(0,0,0,0.08)",
-                }}
-              >
-                {badge}
-              </span>
-            ))}
-          </div>
         </section>
 
         <section className="auth-panel-wrap" style={{ display: "flex", justifyContent: "center" }}>

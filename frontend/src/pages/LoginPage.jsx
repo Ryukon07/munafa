@@ -3,7 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { authAPI } from "../utils/api";
 import ThemeToggle from "../components/ThemeToggle";
 
-const getTodayValue = () => new Date().toISOString().split("T")[0];
+const getTodayValue = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
 
 export default function LoginPage({ setUser, user, theme, onToggleTheme }) {
   const [email, setEmail] = useState("");

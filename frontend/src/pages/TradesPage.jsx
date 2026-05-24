@@ -1,7 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTrades } from "../hooks/useTrades";
 
-const getTodayValue = () => new Date().toISOString().split("T")[0];
+const getTodayValue = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
 
 const formatDisplayDate = (value) => {
   if (!value) return "Select a date";
@@ -296,7 +303,7 @@ function CustomDatePicker({ label, value, onChange }) {
                 return <div key={`empty-${index}`} style={{ height: "32px" }} />;
               }
 
-              const dayValue = cell.toISOString().split("T")[0];
+              const dayValue = `${cell.getFullYear()}-${String(cell.getMonth() + 1).padStart(2, "0")}-${String(cell.getDate()).padStart(2, "0")}`;
               const isSelected = value === dayValue;
 
               return (
